@@ -5,6 +5,8 @@ import { NavLink, Link } from "react-router-dom";
 import logo1 from "../../assets/images/logo1.png"
 import weblogo from "../../assets/images/weblogo.png"
 import { AiOutlineMenu } from "react-icons/ai";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 const nav__links = [
   {
@@ -22,8 +24,26 @@ const nav__links = [
 ];
 
 const Header = () => {
+    
+  const headerRef = useRef(null)
+
+  const stickyHeader =()=>{
+    window.addEventListener('scroll',()=>{
+      if(document.body.scrollTop>80 || document.documentElement.scrollTop>80){
+        headerRef.current.classList.add('sticky__header')
+      }else{
+        headerRef.current.classList.remove('sticky__header')
+      }
+    })
+  }
+
+  useEffect(()=>{
+   stickyHeader()
+   return window.removeEventListener('scroll',stickyHeader)
+  })
+
   return (
-    <header className="header">
+    <header className="header" ref={headerRef}>
       <Container>
         <Row>
           <div className="nav__wrapper d-flex align-items-center justify-content-between">
