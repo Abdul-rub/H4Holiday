@@ -13,6 +13,8 @@ import calculateAvgRating from "../utils/avgRating";
 import avatar from "../assets/images/avatar.jpg";
 import { useRef } from "react";
 import { useState } from "react";
+import Booking from "../components/Booking/Booking";
+import Newsletter from "../shared/Newsletter";
 
 const TourDetails = () => {
   const { id } = useParams();
@@ -41,7 +43,7 @@ const TourDetails = () => {
     e.preventDefault();
     const reviewText = reviewMsgRef.current.value;
 
-    alert(`${reviewText}, ${tourRating}`)
+    alert(`${reviewText}, ${tourRating}`);
   };
 
   return (
@@ -167,9 +169,13 @@ const TourDetails = () => {
                 </div>
               </div>
             </Col>
+            <Col lg='4'>
+               <Booking tour={tour} avgRating={avgRating}/>
+            </Col>
           </Row>
         </Container>
       </section>
+      <Newsletter/>
     </div>
   );
 };

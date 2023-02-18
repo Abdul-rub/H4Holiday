@@ -1,7 +1,7 @@
 import React from "react";
 import "./header.css";
 import { Container, Row, Button } from "reactstrap";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo1 from "../../assets/images/logo1.png"
 import weblogo from "../../assets/images/weblogo.png"
 import { AiOutlineMenu } from "react-icons/ai";
@@ -24,6 +24,7 @@ const nav__links = [
 ];
 
 const Header = () => {
+  const navigate = useNavigate()
     
   const headerRef = useRef(null)
 
@@ -48,7 +49,7 @@ const Header = () => {
         <Row>
           <div className="nav__wrapper d-flex align-items-center justify-content-between">
             <div className="logo">
-              <img src={weblogo} alt="logo" />
+              <img  src={weblogo} alt="logo" />
             </div>
             {/* ---------------------------menu-start---------------------- */}
             <div className="navigation">
