@@ -17,7 +17,7 @@ const quick__links = [
     display: "About",
   },
   {
-    path: "/tours",
+    path: "/tour",
     display: "Tours",
   },
 ];
