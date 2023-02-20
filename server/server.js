@@ -3,6 +3,7 @@ import {connection} from "./Config/db.js"
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose"
 import cors from "cors"
+import tourRoute from "./Routes/tours.js"
 
 
 
@@ -10,6 +11,8 @@ import cors from "cors"
 const app = express()
 app.use(express.json())
 app.use(cors())
+
+app.use("/tours",tourRoute)
 
 
 
@@ -23,7 +26,7 @@ app.get("/",(req,res)=>{
 app.listen(process.env.PORT || 8080,async(req,res)=>{
     try {
         await connection
-        console.log("Connection to database successfu;;")
+        console.log("Connection to database successfull")
     } catch (error) {
         console.log("Connection failed")
         console.log(error)
