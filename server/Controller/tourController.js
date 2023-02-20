@@ -101,3 +101,25 @@ export const getAllTour = async (req, res) => {
 };
 
 //get tour by search
+export const getTourBySearch = async (req, res) => {
+    const city = new RegExp(req.query.city, "i");
+    let query = { city };
+    if (req.query.distance) {
+      const distance = parseInt(req.query.distance);
+      query.distance = { $gte: distance };
+    }
+    if (req.query.maxGroupSize) {
+      const maxGroupSize = parseInt(req.query.maxGroupSize);
+      query.maxGroupSize = { $gte: maxGroupSize };
+    }
+    try {
+      const tours = await Tour.find(query);
+      res.status(200).json({
+        success: true,
+        message: "Successfully got all data",
+        data: tours,
+      });
+    } catch (error) {
+      res.status(404).json({ success: false, message: "Not found" });
+    }
+  };
