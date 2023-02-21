@@ -1,18 +1,25 @@
 import express from "express"
-import {connection} from "./Config/db.js"
-import cookieParser from "cookie-parser";
-import mongoose from "mongoose"
+import {connection, corsOption} from "./Config/db.js"
 import cors from "cors"
 import tourRoute from "./Routes/tours.js"
+import userRoute from "./Routes/user.js"
+import authRoute from "./Routes/auth.js"
+import reviewRoute from "./Routes/reviews.js"
+import bookingRoute from "./Routes/booking.js"
 
 
 
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors(corsOption))
 
+
+app.use("/auth",authRoute)
 app.use("/tours",tourRoute)
+app.use("/user",userRoute)
+app.use("/review", reviewRoute)
+app.use("/booking", bookingRoute)
 
 
 
