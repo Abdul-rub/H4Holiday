@@ -5,32 +5,62 @@ import {GrClose} from "react-icons/gr"
 import "../Booking/booking.css";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { BASE_URL } from "../../utils/config";
+import { useContext } from "react";
+
 
 const Booking = ({ tour, avgRating }) => {
-  const { price, reviews } = tour;
+  const { price, reviews,title } = tour;
   const navigate = useNavigate()
 
-  const [credentials, setCredentials] = useState({
-    userId:'01',
-    userEmail:"test1@gmail.com",
+  const {user} = useContext(AuthContext)
+
+  const [booking, setBooking] = useState({
+    userId: user && user._id,
+    userEmail:user && user.email,
+    tourName: title,
     fullName:"",
     phone:"",
     guestSize:1,
-    bookAt:""
+    bookAt:"",
   })
 
   const handleChange = (e) => {
-    setCredentials(prev=>({...prev,[e.target.id]:e.target.value}))
+    setBooking(prev=>({...prev,[e.target.id]:e.target.value}))
   };
 
   const serviceFee = 10
-  const totalAmount = Number(price) * Number(credentials.guestSize)+ Number(serviceFee)
+  const totalAmount = Number(price) * Number(booking.guestSize)+ Number(serviceFee)
 
 
 
-  const handleClick=(e)=>{
+  const handleClick= async(e)=>{
     e.preventDefault();
-    console.log(credentials)
+    console.log(booking)
+
+    try {
+      if(!user || user===undefined || user===null){
+        return alert('Please sign in ')
+      }
+     const res = await fetch(`${BASE_URL}/booking`,{
+      method:'post',
+      headers:{
+        'content-type':'application/json'
+      },
+      credentials:'include',
+      body:JSON.stringify(booking)
+     })
+
+     const result = await res.json()
+     if(!res.ok){
+      return alert(result.message)
+     }
+     navigate("/thank-you")
+
+    } catch (error) {
+      
+    }
     navigate("/thank-you")
   }
 

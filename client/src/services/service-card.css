@@ -22,3 +22,16 @@
 .service__img img{
     width: 100%;
 }
+
+.service__item h5{
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.service__item p {
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+/* @media only screen and (max-width:992px) */
+
