@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 import CommonSection from "../shared/CommonSection";
+import Newsletter from "../shared/Newsletter";
 import TourCard from "../shared/TourCard";
 
 const SearchResultList = () => {
@@ -28,6 +29,7 @@ const SearchResultList = () => {
           </Row>
         </Container>
       </section>
+      <Newsletter/>
     </>
   );
 };

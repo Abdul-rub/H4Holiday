@@ -1,28 +1,50 @@
 import React, { useState } from 'react'
 import "../styles/login.css"
 import {Container,Row,Col,Form,FormGroup,Button} from "reactstrap"
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 
 import registerImg from "../assets/images/register.png"
 import userIcon from "../assets/images/user.png"
+import { AuthContext } from '../context/AuthContext'
+import { BASE_URL } from '../utils/config'
+import { useContext } from 'react'
+
 
 const Register = () => {
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    username:"",
-   email:"",
-   password:""
-  })
+    username: '',
+    email: '',
+    password: '',
+  });
   
+  const { dispatch } = useContext(AuthContext);
 
   const handleChange = (e) => {
-    setCredentials(prev=>({...prev,[e.target.id]:e.target.value}))
+    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleClick=(e)=>{
-    e.preventDefault()
-    console.log(credentials)
-  }
+  const handleClick = async (e) => {
+    e.preventDefault();
+    console.log(credentials);
 
+    try {
+      const res = await fetch(`${BASE_URL}/auth/register`, {
+        method: 'post',
+        headers: {
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+      const result = await res.json();
+      if (!res.ok) alert(result.message);
+
+      dispatch({ type: 'REGISTER_SUCCESS' });
+      navigate('/login');
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   return (
     <div>

@@ -2,7 +2,6 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import "../styles/tour-details.css";
 import { Container, Row, Col, Form, ListGroup } from "reactstrap";
-import tourData from "../assets/data/tours";
 import { AiFillStar, AiTwotoneStar } from "react-icons/ai";
 import { GrMap } from "react-icons/gr";
 import { FaMapMarkerAlt } from "react-icons/fa";
@@ -15,13 +14,17 @@ import { useRef } from "react";
 import { useState } from "react";
 import Booking from "../components/Booking/Booking";
 import Newsletter from "../shared/Newsletter";
+import useFetch from "../hooks/useFetch";
+import { BASE_URL } from "../utils/config";
+import { useEffect } from "react";
 
 const TourDetails = () => {
   const { id } = useParams();
   const reviewMsgRef = useRef("");
   const [tourRating, setTourRating] = useState(null);
 
-  const tour = tourData.find((tour) => tour.id === id);
+  // const tour = tourData.find((tour) => tour.id === id);
+  const {data:tour,loading,error} = useFetch(`${BASE_URL}/tours/${id}`)
 
   const {
     photo,
@@ -46,11 +49,19 @@ const TourDetails = () => {
     alert(`${reviewText}, ${tourRating}`);
   };
 
+  useEffect(()=>{
+    window.scrollTo(0,0);
+
+  },[tour])
+
   return (
     <div>
       <section>
         <Container>
-          <Row>
+          {loading && <h4 className="text-center pt-5">Loading......</h4>}
+          {error && <h4 className="text-center pt-5">{error}</h4>}
+         {!loading && !error &&  (
+         <Row>
             <Col lg="8">
               <div className="tour__content">
                 <img src={photo} alt="singlePhoto" />
@@ -172,7 +183,7 @@ const TourDetails = () => {
             <Col lg='4'>
                <Booking tour={tour} avgRating={avgRating}/>
             </Col>
-          </Row>
+          </Row>)}
         </Container>
       </section>
       <Newsletter/>
